@@ -12,23 +12,30 @@
 
 #include "libft.h"
 
-size_t	ft_strlcat(char *dest, const char *src, size_t destsize)
-{
-	size_t	lensrc;
-	size_t	lendest;
 
-	lensrc = ft_strlen(src);
-	lendest = ft_strlen(dest);
-	if (lendest >= destsize)
-		lendest = destsize;
-	if (lendest == destsize)
-		return (destsize + lensrc);
-	if (lensrc < destsize - lendest)
-		ft_memmove(dest + lendest, src, lensrc + 1);
-	else
+#include "libft.h"
+
+size_t	ft_strlcat(char *dest, const char *src, size_t size)
+{
+	size_t	d;
+	size_t	s;
+	size_t	i;
+
+	d = 0;
+	s = 0;
+	if (!dest && size == 0)
+		return (ft_strlen(src));
+	while (dest[d] && d < size)
+		d++;
+	while (src[s])
+		s++;
+	i = 0;
+	while (src[i] && (d + i + 1) < size)
 	{
-		ft_memmove(dest + lendest, src, destsize - lendest - 1);
-		dest[destsize - 1] = '\0';
+		dest[d + i] = src[i];
+		i++;
 	}
-	return (lendest + lensrc);
+	if (d < size)
+		dest[d + i] = '\0';
+	return (d + s);
 }
